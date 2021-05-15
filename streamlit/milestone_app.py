@@ -11,7 +11,7 @@ st.title("Predict New Imagekjhkjhs")
 st.header("test html import")
 
 import os
-st.header(os.getcwd())
+st.header(os.listdir())
 
 # HtmlFile = open(r"milestone_1_streamlit\streamlit\data\total_pickups.html", 'r')
 # source_code = HtmlFile.read() 
