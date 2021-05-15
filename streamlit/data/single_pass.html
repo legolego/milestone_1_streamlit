@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .error {
+        color: red;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-lite@4.8.1"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 400, "continuousHeight": 300}}, "data": {"name": "data-63cd5bcb6349805ed2c2c765a6a71bb9"}, "mark": "rect", "encoding": {"color": {"type": "quantitative", "field": "weight", "legend": {"title": "# of rides"}}, "tooltip": [{"type": "nominal", "field": "pick_up_location", "title": "pick up zone"}, {"type": "nominal", "field": "drop_off_location", "title": "drop off zone"}, {"type": "quantitative", "field": "weight", "format": ",", "title": "# of rides"}], "x": {"type": "nominal", "axis": {}, "field": "pick_up_location", "sort": [237.0, 236.0, 162.0, 141.0, 48.0, 68.0, 79.0, 107.0, 239.0, 142.0, 238.0, 132.0, 163.0, 164.0, 161.0, 170.0, 186.0, 230.0, 234.0], "title": "pick up location"}, "y": {"type": "nominal", "field": "drop_off_location", "sort": [237.0, 236.0, 162.0, 141.0, 48.0, 68.0, 79.0, 107.0, 239.0, 142.0, 238.0, 132.0, 163.0, 164.0, 161.0, 170.0, 186.0, 230.0, 234.0], "title": "drop off location"}}, "$schema": "https://vega.github.io/schema/vega-lite/v4.8.1.json", "datasets": {"data-63cd5bcb6349805ed2c2c765a6a71bb9": [{"pick_up_location": 237.0, "drop_off_location": 237.0, "weight": 452949}, {"pick_up_location": 237.0, "drop_off_location": 236.0, "weight": 457458}, {"pick_up_location": 237.0, "drop_off_location": 161.0, "weight": 239224}, {"pick_up_location": 237.0, "drop_off_location": 162.0, "weight": 178563}, {"pick_up_location": 237.0, "drop_off_location": 142.0, "weight": 179122}, {"pick_up_location": 237.0, "drop_off_location": 141.0, "weight": 196887}, {"pick_up_location": 236.0, "drop_off_location": 237.0, "weight": 457458}, {"pick_up_location": 236.0, "drop_off_location": 236.0, "weight": 428622}, {"pick_up_location": 236.0, "drop_off_location": 161.0, "weight": 176379}, {"pick_up_location": 236.0, "drop_off_location": 162.0, "weight": 196920}, {"pick_up_location": 236.0, "drop_off_location": 141.0, "weight": 219785}, {"pick_up_location": 161.0, "drop_off_location": 237.0, "weight": 239224}, {"pick_up_location": 161.0, "drop_off_location": 236.0, "weight": 176379}, {"pick_up_location": 161.0, "drop_off_location": 161.0, "weight": 257371}, {"pick_up_location": 161.0, "drop_off_location": 142.0, "weight": 174063}, {"pick_up_location": 161.0, "drop_off_location": 170.0, "weight": 216767}, {"pick_up_location": 161.0, "drop_off_location": 186.0, "weight": 228680}, {"pick_up_location": 161.0, "drop_off_location": 230.0, "weight": 179068}, {"pick_up_location": 161.0, "drop_off_location": 48.0, "weight": 192511}, {"pick_up_location": 161.0, "drop_off_location": 234.0, "weight": 177254}, {"pick_up_location": 161.0, "drop_off_location": 163.0, "weight": 184117}, {"pick_up_location": 161.0, "drop_off_location": 164.0, "weight": 179637}, {"pick_up_location": 162.0, "drop_off_location": 237.0, "weight": 178563}, {"pick_up_location": 162.0, "drop_off_location": 236.0, "weight": 196920}, {"pick_up_location": 162.0, "drop_off_location": 162.0, "weight": 188987}, {"pick_up_location": 162.0, "drop_off_location": 170.0, "weight": 183134}, {"pick_up_location": 239.0, "drop_off_location": 239.0, "weight": 189009}, {"pick_up_location": 239.0, "drop_off_location": 142.0, "weight": 230532}, {"pick_up_location": 239.0, "drop_off_location": 238.0, "weight": 202581}, {"pick_up_location": 142.0, "drop_off_location": 237.0, "weight": 179122}, {"pick_up_location": 142.0, "drop_off_location": 161.0, "weight": 174063}, {"pick_up_location": 142.0, "drop_off_location": 239.0, "weight": 230532}, {"pick_up_location": 79.0, "drop_off_location": 79.0, "weight": 256938}, {"pick_up_location": 79.0, "drop_off_location": 107.0, "weight": 191610}, {"pick_up_location": 238.0, "drop_off_location": 239.0, "weight": 202581}, {"pick_up_location": 107.0, "drop_off_location": 79.0, "weight": 191610}, {"pick_up_location": 107.0, "drop_off_location": 170.0, "weight": 231853}, {"pick_up_location": 170.0, "drop_off_location": 161.0, "weight": 216767}, {"pick_up_location": 170.0, "drop_off_location": 162.0, "weight": 183134}, {"pick_up_location": 170.0, "drop_off_location": 107.0, "weight": 231853}, {"pick_up_location": 170.0, "drop_off_location": 170.0, "weight": 202229}, {"pick_up_location": 170.0, "drop_off_location": 186.0, "weight": 185772}, {"pick_up_location": 170.0, "drop_off_location": 234.0, "weight": 189005}, {"pick_up_location": 186.0, "drop_off_location": 161.0, "weight": 228680}, {"pick_up_location": 186.0, "drop_off_location": 170.0, "weight": 185772}, {"pick_up_location": 186.0, "drop_off_location": 230.0, "weight": 215622}, {"pick_up_location": 186.0, "drop_off_location": 234.0, "weight": 192733}, {"pick_up_location": 230.0, "drop_off_location": 161.0, "weight": 179068}, {"pick_up_location": 230.0, "drop_off_location": 186.0, "weight": 215622}, {"pick_up_location": 230.0, "drop_off_location": 230.0, "weight": 174449}, {"pick_up_location": 141.0, "drop_off_location": 237.0, "weight": 196887}, {"pick_up_location": 141.0, "drop_off_location": 236.0, "weight": 219785}, {"pick_up_location": 141.0, "drop_off_location": 141.0, "weight": 194469}, {"pick_up_location": 48.0, "drop_off_location": 161.0, "weight": 192511}, {"pick_up_location": 48.0, "drop_off_location": 48.0, "weight": 218194}, {"pick_up_location": 48.0, "drop_off_location": 68.0, "weight": 199381}, {"pick_up_location": 234.0, "drop_off_location": 161.0, "weight": 177254}, {"pick_up_location": 234.0, "drop_off_location": 170.0, "weight": 189005}, {"pick_up_location": 234.0, "drop_off_location": 186.0, "weight": 192733}, {"pick_up_location": 68.0, "drop_off_location": 48.0, "weight": 199381}, {"pick_up_location": 68.0, "drop_off_location": 68.0, "weight": 188670}, {"pick_up_location": 163.0, "drop_off_location": 161.0, "weight": 184117}, {"pick_up_location": 164.0, "drop_off_location": 161.0, "weight": 179637}, {"pick_up_location": 132.0, "drop_off_location": 132.0, "weight": 176709}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div class="error" style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
