@@ -14,7 +14,7 @@ import os
 st.header(os.getcwd())
 st.header(os.listdir())
 
-HtmlFile = open("/streamlit/data/total_pickups.html", 'r')
+HtmlFile = open("streamlit/data/total_pickups.html", 'r')
 source_code = HtmlFile.read() 
 #print(source_code)
 components.html(source_code,  height = 600, width=700,)
