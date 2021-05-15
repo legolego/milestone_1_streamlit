@@ -10,13 +10,13 @@ import streamlit.components.v1 as components
 st.title("Predict New Imagekjhkjhs")
 st.header("test html import")
 
-import os
-st.header(os.listdir())
+# import os
+# st.header(os.listdir())
 
-# HtmlFile = open(r"milestone_1_streamlit\streamlit\data\total_pickups.html", 'r')
-# source_code = HtmlFile.read() 
-# #print(source_code)
-# components.html(source_code,  height = 600, width=700,)
+HtmlFile = open(r"\streamlit\data\total_pickups.html", 'r')
+source_code = HtmlFile.read() 
+#print(source_code)
+components.html(source_code,  height = 600, width=700,)
 
 # HtmlFile = open(r"milestone_1_streamlit\streamlit\data\dropoffs.html", 'r')
 # source_code = HtmlFile.read() 
