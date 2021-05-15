@@ -2,10 +2,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
 
-# https://drive.google.com/drive/folders/13cpp-BNdP6Sc623PyR8_Fq0YzwK6lZ1Z?usp=sharing
-
-# url = ' google drive sharing link'
-# path = 'https://drive.google.com/uc?export=download&id='+url.split('/')[-2]
 
 st.title("Predict New Imagekjhkjhs")
 st.header("test html import")
