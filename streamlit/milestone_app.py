@@ -9,12 +9,10 @@ st.header("test html import")
 
 HtmlFile = open("streamlit/data/total_pickups.html", 'r')
 source_code = HtmlFile.read() 
-#print(source_code)
 components.html(source_code,  height = 600, width=700,)
 
 HtmlFile = open("streamlit/data/dropoffs.html", 'r')
 source_code = HtmlFile.read() 
-#print(source_code)
 components.html(source_code,  height = 600, width=700,)
 
 st.title("Predict New Imagekjhkjhs")
