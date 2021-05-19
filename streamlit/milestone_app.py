@@ -80,6 +80,18 @@ source_code = HtmlFile.read()
 components.html(source_code,  height = 600, width=700,)
 
 
+st.title("Predict New Image")
+HtmlFile = open("streamlit/data/multi_pass.html", 'r')
+source_code = HtmlFile.read() 
+components.html(source_code,  height = 600, width=700,)
+
+
+st.title("Predict New Image")
+HtmlFile = open("streamlit/data/kepler_test6.html", 'r')
+source_code = HtmlFile.read() 
+components.html(source_code,  height = 900, width=900,)
+
+
 
 st.info(
     "Here rides throughtout the year are visible, binned by maximum distance and grouped by morning(9am-noon) \
