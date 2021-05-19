@@ -17,6 +17,10 @@ st.title("MADS 592 - NYC Taxis and Precipitation")
 st.header("Oleg N and Cory B")
 st.subheader("Interactive and supplementary visualizations")
 
+st.info(
+    "This page is best viewed with a light colored theme, which can be set in under Settings in the hanburger menu in the top right corner.")
+
+
 
 st.info(
     "We will first start with samples of the original data we used. Below is a few rows of the New York City taxi ride data.\
@@ -80,8 +84,9 @@ st.info(
     "Our goal was to show a causal relationship between rain and taxi ridership by counting the number of pickups. After we \
         started we found that this had actually been studied already, by [Kamga et al](https://www.researchgate.net/publication/255982467_Hailing_in_the_Rain_Temporal_and_Weather-Related_Variations_in_Taxi_Ridership_and_Taxi_Demand-Supply_Equilibrium), \
         [Sun et al](https://www.hindawi.com/journals/jat/2020/7081628/), and [Chen et al](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0183574). \
-        Looking at the weather data and finding when rain started, we found that there was a visible increase in ridership after rain had started, \
-        as shown in the chart below for January 17th. The increase can be seen in the yellow line, with raing having started at 11:51am. We will study this day further.")
+        [Braei et al](https://arxiv.org/pdf/2004.00433.pdf) mentions that rain does increase ridership. Looking at the weather \
+        data and finding when rain started, we found that there was a visible increase in ridership after rain had started, \
+        as shown in the chart below for January 17th. The increase can be seen in the yellow line, with rain having started at 11:51am. We will study this day further.")
 
 
 
@@ -328,6 +333,10 @@ st.title("Predict New Image")
 HtmlFile = open("streamlit/data/kepler_test6.html", 'r')
 source_code = HtmlFile.read() 
 components.html(source_code,  height = 900, width=900,)
+
+
+st.info(
+    "Further analysis is needed for this time series, with some hints given by [Moraffah et al](https://arxiv.org/pdf/2102.05829v1.pdf)")
 
 
 
