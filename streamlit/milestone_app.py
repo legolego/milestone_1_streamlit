@@ -9,6 +9,8 @@ import statsmodels.formula.api as smf
 from datetime import timedelta
 import datetime as dt
 
+from streamlit.proto.Markdown_pb2 import Markdown
+
 CURRENT_THEME = "light"
 alt.data_transformers.disable_max_rows()  
 # to run this:
@@ -87,12 +89,19 @@ st.markdown('\n\n')
 st.header('Taxi rides and precipitation inquiry')
 st.markdown('\n\n')
 st.markdown(
-    "Our goal was to show a causal relationship between rain and taxi ridership by counting the number of pickups. After we \
-        started we found that this had actually been studied already, by [Kamga et al](https://www.researchgate.net/publication/255982467_Hailing_in_the_Rain_Temporal_and_Weather-Related_Variations_in_Taxi_Ridership_and_Taxi_Demand-Supply_Equilibrium), \
-        [Sun et al](https://www.hindawi.com/journals/jat/2020/7081628/), and [Chen et al](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0183574). \
-        [Braei et al](https://arxiv.org/pdf/2004.00433.pdf) mentions that rain does increase ridership. Looking at the weather \
-        data and finding when rain started, we found that there was a visible increase in ridership after rain had started, \
-        as shown in the chart below for January 17th. The increase can be seen in the yellow line, with rain having started at 11:51am. We will study this day further.")
+"Our goal was to show a causal relationship between rain and taxi ridership by counting the number of pickups before and after a rain event began. After we \
+started we found that this had actually been studied already, by [Kamga et al](https://www.researchgate.net/publication/255982467_Hailing_in_the_Rain_Temporal_and_Weather-Related_Variations_in_Taxi_Ridership_and_Taxi_Demand-Supply_Equilibrium),\
+[Sun et al](https://www.hindawi.com/journals/jat/2020/7081628/), and [Chen et al](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0183574).\
+[Braei et al](https://arxiv.org/pdf/2004.00433.pdf) mentions that rain does increase ridership.")
+
+st.markdown( "To investigate this relationship between rain and number of taxi rides, we created a script to identify days with rain events, and more specifically, found when these rain events began. \
+We found many days throughout 2010 to investigate this relationship, but we wanted to pick a particular day to focus our initial investigation on.") 
+
+st.markdown("We picked January 17th because this day had a rainstorm that started around 12:00 pm, \
+and we thought noon was a good symmetrical boundary to split the data on ; this way, we could visualize the difference in rides for the morning \
+and the afternoon, and this would represent our pre-rain and post-rain comparison. \
+We found that there was a visible increase in ridership after rain had started, \
+as shown in the chart below for January 17th. The increase can be seen in the yellow line, with rain having started at 11:51am. We will study this day further.")
 
 st.markdown('\n\n')
 st.markdown('\n\n')
@@ -131,10 +140,7 @@ st.info('Here you can you see a spike in rides began around 12:30pm that is sust
 
 st.title(' ')
 st.markdown(
-'We wanted to investigate the taxi ride activity in Manhattan before and after the rainstorm  had begun. To do this, we picked a rain event \
-on a particular day so we could visualize this relationship. We picked January 17th because this day had a rainstorm that started around 12:00 pm, \
-and we thought noon was a good symmetrical boundary to split the data on ; this way, we could visualize the difference in rides for the morning \
-and the afternoon, and this would represent our pre-rain and post-rain comparison. We aggregated the number of taxi pickups for  9am - 12pm and \
+'We wanted to investigate the taxi ride activity in Manhattan before and after the rainstorm had begun on 01/17. We aggregated the number of taxi pickups for  9am - 12pm and \
 12pm - 3pm, and then computed the percent difference in rides. \
 \n\n')
 
