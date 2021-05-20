@@ -8,6 +8,7 @@ import statsmodels.formula.api as smf
 from datetime import timedelta
 import datetime as dt
 
+CURRENT_THEME = "light"
 alt.data_transformers.disable_max_rows()  
 # to run this:
 # streamlit run streamlit\milestone_app.py
@@ -42,19 +43,19 @@ st.info(
 df_taxi_sample = pd.read_csv("streamlit/data/hourly-2020-sample.csv")
 st.dataframe(df_taxi_sample)
 
-
-st.info(
-    "The following two charts show the range of pickups and dropoffs throughout New York City, topping out at over 6 million for the year in some regions!")
-
+st.title(' ')
+st.info('''We wanted to get an overall sense of the taxi activity in NYC for pickups and drop-offs, so we created heatmaps for each taxi zone aggregated over 2010. It was no surprise to us that Manhattan had by far the most pickups and drop-offs, but it was a small surprise to see so few pickups and drop-offs occurred in Staten Island. Tooltips were included to show different metrics such as money spent on fares, counts, and number of passengers dropped off.''')
 
 HtmlFile = open("streamlit/data/total_pickups.html", 'r')
 source_code = HtmlFile.read() 
 components.html(source_code,  height = 600, width=700,)
 
+st.title(' ')
 HtmlFile = open("streamlit/data/dropoffs.html", 'r')
 source_code = HtmlFile.read() 
 components.html(source_code,  height = 600, width=700,)
 
+st.title(' ')
 st.info(
     "Here rides throughtout the year are visible, binned by maximum distance and grouped by morning(9am-noon) \
     or afternoon(noon-3pm). It's interesting to see the dips around Christmas, February and March, with a \
@@ -73,13 +74,13 @@ rides = alt.Chart(df_rides, title='Rides all year').mark_line().encode(
     color=alt.Color('comp_dist_bins:N', title='Ride distance') ,
     strokeDash=alt.StrokeDash('post_treatment_time_dummy:O', title='Afternoon Dummy')  
 ).properties(
-width=1000,
-    height=600
+width=800,
+    height=400
 ).interactive()
 
 st.altair_chart(rides)
 
-
+st.title(' ')
 st.info(
     "Our goal was to show a causal relationship between rain and taxi ridership by counting the number of pickups. After we \
         started we found that this had actually been studied already, by [Kamga et al](https://www.researchgate.net/publication/255982467_Hailing_in_the_Rain_Temporal_and_Weather-Related_Variations_in_Taxi_Ridership_and_Taxi_Demand-Supply_Equilibrium), \
@@ -121,15 +122,26 @@ width=700,
 st.altair_chart(rides+line)
 
 
-
+st.title(' ')
 st.info(
-    "Here we show the percent chage in ridership before and after the rain started. The largest increase is in Little Italy.")
+    '''We wanted to investigate the taxi ride activity in Manhattan before and after a rainstorm  had begun. To do this, we picked a rain event on a particular day so we could visualize this relationship. We picked January 17th because this day had a rainstorm that started around 12:00 pm, and we thought noon was a good symmetrical boundary to split the data on ; this way, we could visualize the difference in rides for the morning and the afternoon, and this would represent our pre-rain and post-rain comparison. We aggregated the number of taxi pickups for  9am - 12pm and 12pm - 3pm, and then computed the percent difference in rides. 
+\n On this particular day, you can see a large percentage increase in the number of rides for various taxi zones in the afternoon. The choropleth below shows the results obtained. 
+The largest increase is in Soho with a 203% increase.''')
 
+st.title(' ')
 HtmlFile = open("streamlit/data/specific_day.html", 'r')
 source_code = HtmlFile.read() 
 components.html(source_code,  height = 600, width=700,)
 
+st.title(' ')
+st.info(
+    "Here is a time lapse of the same day ( January 17th ) from 9am to 3pm. The rides are visualized via a density heatmap that represents the taxi pickups that occurred during this time range. You can see a jump in rides around 12:30pm that is sustained in the heatmap and in the time lapse time bars.")
+st.title(' ')
+HtmlFile = open("streamlit/data/kepler_test6.html", 'r')
+source_code = HtmlFile.read() 
+components.html(source_code,  height = 900, width=900,)
 
+st.title(' ')
 st.info(
     "We split January 17th into two 2-hour time segments, before and after the rain started, in order to do a simple difference in differences calculation \
         using the means of each segment. The result was an increase in ridership by 87 rides per minute for this day.")
@@ -228,7 +240,7 @@ st.altair_chart(alt_did_chart)
 
 
 
-
+st.title(' ')
 st.info(
     "We did try to set up an experiment using the hours of 9am-noon and \
         noon-3pm as a morning/afternoon boundary for a differences in differences. Our control group was days with both dry mornings \
@@ -293,46 +305,43 @@ st.info(
 st.altair_chart((error_bars + points + rule).interactive())
 
 
-st.title("Predict New Image")
+st.info('''Before starting this project, we had ideas to investigate average tips per taxi ride for each neighborhood, and also the general relationships between the top most active neighborhoods. This was a separate inquiry from our investigation on rain, but nonetheless we pursued these idea and obtained some interesting results. 
+We split our data into two groups, taxi rides that were paid in cash, and taxi rides that were paid by credit card; we felt this was an important step because we expected rides paid by cash to have somewhat under-reported tips and did not want to lump these two groups together.
+We expected Manhattan to broadly have the highest average tip, but surprisingly tips were generally higher outside of Manhattan. There were even two outliers in Manhattan for zones Upper East Side North and Union SQ with a tip of percentages of 3.2% and 10.8 % respectivel
+''')
+
+st.title(' ')
 HtmlFile = open("streamlit/data/credit_card_tips.html", 'r')
 source_code = HtmlFile.read() 
 components.html(source_code,  height = 600, width=700,)
 
-st.title("Predict New Image")
+st.title(' ')
 HtmlFile = open("streamlit/data/cash_tips.html", 'r')
 source_code = HtmlFile.read() 
 components.html(source_code,  height = 600, width=700,)
 
 
+st.info('''We wanted to investigate relationships between the different neighborhoods in NYC, so we created a heatmap for the top 50 relationships for pick up and drop off locations. To pull out underlying relationships, such as subnetworks and connections between the groups of pickup and drop-off locations, we used a clustering algorithm to arrange the locations on each axis by similarity. The similarity was computed using Euclidean distance, and the inherent patterns within the charts can be interpreted as subnetworks between different neighborhoods. For example, the blue square in the upper left corner of each plot represents a strong subnetwork between the Upper east Side North and Upper east Side South zones. Similar interpretations can be made for other observed patterns in the below charts (patterns of shapes and consecutive strips).
+This method was repeated for single passenger rides, double passenger rides, and multi passenger rides.
+''')
 
-st.title("Predict New Image")
+st.title(' ')
 HtmlFile = open("streamlit/data/single_pass.html", 'r')
 source_code = HtmlFile.read() 
 components.html(source_code,  height = 600, width=700,)
 
-st.title("Predict New Image")
+st.title(' ')
 HtmlFile = open("streamlit/data/double_pass.html", 'r')
 source_code = HtmlFile.read() 
 components.html(source_code,  height = 600, width=700,)
 
 st.title(" ")
-st.title(" ")
-st.title("Predict New Image")
 HtmlFile = open("streamlit/data/multi_pass.html", 'r')
 source_code = HtmlFile.read() 
 components.html(source_code,  height = 600, width=700,)
 
 
-st.title("Predict New Image")
-HtmlFile = open("streamlit/data/multi_pass.html", 'r')
-source_code = HtmlFile.read() 
-components.html(source_code,  height = 600, width=700,)
 
-
-st.title("Predict New Image")
-HtmlFile = open("streamlit/data/kepler_test6.html", 'r')
-source_code = HtmlFile.read() 
-components.html(source_code,  height = 900, width=900,)
 
 
 st.info(
