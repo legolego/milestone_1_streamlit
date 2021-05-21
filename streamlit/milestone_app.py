@@ -8,16 +8,10 @@ import numpy as np
 import statsmodels.formula.api as smf
 from datetime import timedelta
 import datetime as dt
-
-<<<<<<< HEAD
-alt.data_transformers.disable_max_rows()
-#alt.themes.enable('quartz')  
-=======
 from streamlit.proto.Markdown_pb2 import Markdown
 
 CURRENT_THEME = "light"
 alt.data_transformers.disable_max_rows()  
->>>>>>> 4d8b0ed6219c78e4e0018cc6afe74de200691704
 # to run this:
 # streamlit run streamlit\milestone_app.py
 
@@ -82,15 +76,10 @@ rides = alt.Chart(df_rides, title='Rides all year').mark_line().encode(
     color=alt.Color('comp_dist_bins:N', title='Distance bins (mi)') ,
     strokeDash=alt.StrokeDash('post_treatment_time_dummy:O', title='Afternoon Dummy')  
 ).properties(
-<<<<<<< HEAD
-width=1000,
-    height=600
-).configure(background='#D9E9F0').interactive()
-=======
 width=875,
     height=475
 ).interactive()
->>>>>>> 4d8b0ed6219c78e4e0018cc6afe74de200691704
+
 
 st.altair_chart(rides)
 st.info('This plot is to help illustrate inherent trends for the mornings and afternoons throughout the year. Rides were also binned based on distance.')
