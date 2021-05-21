@@ -8,7 +8,8 @@ import statsmodels.formula.api as smf
 from datetime import timedelta
 import datetime as dt
 
-alt.data_transformers.disable_max_rows()  
+alt.data_transformers.disable_max_rows()
+#alt.themes.enable('quartz')  
 # to run this:
 # streamlit run streamlit\milestone_app.py
 
@@ -75,7 +76,7 @@ rides = alt.Chart(df_rides, title='Rides all year').mark_line().encode(
 ).properties(
 width=1000,
     height=600
-).interactive()
+).configure(background='#D9E9F0').interactive()
 
 st.altair_chart(rides)
 
