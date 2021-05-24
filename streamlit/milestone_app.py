@@ -8,7 +8,6 @@ import numpy as np
 import statsmodels.formula.api as smf
 from datetime import timedelta
 import datetime as dt
-
 from streamlit.proto.Markdown_pb2 import Markdown
 
 CURRENT_THEME = "light"
@@ -17,15 +16,17 @@ alt.data_transformers.disable_max_rows()
 # streamlit run streamlit\milestone_app.py
 
 
+
 st.title("MADS 592 - NYC Taxis and Precipitation")
-st.header("Oleg N and Cory B")
+st.header("Cory B and Oleg N")
 st.markdown('\n\n')
 st.header("Interactive and supplementary visualizations")
 st.markdown('\n\n')
 
+st.info('Please note each chart below is interactive.')
 st.markdown(
-    "We will first start with samples of the original data we used. Below is a few rows of the New York City taxi ride data.\
-        ([Source](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page)) ")
+    "We will first start with samples of the original data we used. Below is a few rows of the New York City taxi ride data\
+        ([Source](https://www1.nyc.gov/site/tlc/about/tlc-trip-record-data.page)).")
 st.markdown('\n\n')
 
 # https://docs.streamlit.io/en/0.65.0/advanced_concepts.html
@@ -44,7 +45,13 @@ df_taxi_sample = pd.read_csv("streamlit/data/hourly-2020-sample.csv")
 st.dataframe(df_taxi_sample)
 
 st.title(' ')
-st.markdown('''We wanted to get an overall sense of the taxi activity in NYC for pickups and drop-offs, so we created heatmaps for each taxi zone aggregated over 2010. It was no surprise to us that Manhattan had by far the most pickups and drop-offs, but it was a small surprise to see so few pickups and drop-offs occurred in Staten Island. Tooltips were included to show different metrics such as money spent on fares, counts, and number of passengers dropped off.''')
+st.markdown('''We wanted to get an overall sense of the taxi activity in NYC for pickups and drop-offs, 
+so we created heatmaps for each taxi zone aggregated over 2010. It was no surprise to us that Manhattan had by 
+far the most pickups and drop-offs, but it was a small surprise to see how many fewer pickups and drop-offs
+ occurred in Staten Island. This lack of pickups in other bouroughs is a problem that Green taxis were created to solve
+ ([Source](https://www.forbes.com/sites/johngiuffo/2013/09/30/nycs-new-green-taxis-what-you-should-know/?sh=cc6ff1a32a28)).
+  Tooltips were included to show different metrics such as money spent on 
+ fares, counts, and number of passengers dropped off.''')
 
 HtmlFile = open("streamlit/data/total_pickups.html", 'r')
 source_code = HtmlFile.read() 
@@ -81,6 +88,7 @@ width=875,
     height=475
 ).interactive()
 
+
 st.altair_chart(rides)
 st.info('This plot is to help illustrate inherent trends for the mornings and afternoons throughout the year. Rides were also binned based on distance.')
 
@@ -91,7 +99,7 @@ st.markdown('\n\n')
 st.markdown(
 "Our goal was to show a causal relationship between rain and taxi ridership by counting the number of pickups before and after a rain event began. After we \
 started we found that this had actually been studied already, by [Kamga et al](https://www.researchgate.net/publication/255982467_Hailing_in_the_Rain_Temporal_and_Weather-Related_Variations_in_Taxi_Ridership_and_Taxi_Demand-Supply_Equilibrium),\
-[Sun et al](https://www.hindawi.com/journals/jat/2020/7081628/), and [Chen et al](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0183574).\
+[Sun et al](https://www.hindawi.com/journals/jat/2020/7081628/), and [Chen et al](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0183574). \
 [Braei et al](https://arxiv.org/pdf/2004.00433.pdf) mentions that rain does increase ridership.")
 
 st.markdown( "To investigate this relationship between rain and number of taxi rides, we created a script to identify days with rain events, and more specifically, found when these rain events began. \
@@ -117,7 +125,7 @@ b = pd.to_datetime(df_single_12hrs['b_ts'].iloc[0])
 line = alt.Chart(pd.DataFrame({'x': [str(b)]})).mark_rule().encode(x=alt.X('x:T', title='') )    
 
 # https://altair-viz.github.io/user_guide/times_and_dates.html
-rides = alt.Chart(df_single_12hrs, title='B_ID: ' + str(df_single_12hrs.iloc[0]['b_id']) + " - Rides around " + str(b.strftime('%A')) + ' - ' + str(b)+ '(12 hour window)').mark_line().encode(
+rides = alt.Chart(df_single_12hrs, title="Rides around " + str(b.strftime('%A')) + ' - ' + str(b)+ '(12 hour window)').mark_line().encode(
     #x=alt.X('hoursminutes(pickup_datetime_1min):Q', title='Date/time', 
     #x=alt.X('utchoursminutes(pickup_datetime_1min_str):T', title='Date/time', 
     x=alt.X('pickup_datetime_same_time:T', title='Date/time', 
@@ -147,7 +155,7 @@ st.markdown(
 st.title(' ')
 st.markdown('On this particular day, you can see a large percentage increase in the number of rides \
 for various taxi zones in the afternoon. The choropleth below shows the results obtained. \
-The largest increase is in Soho with a 203% increase.') 
+The largest increase is in Little Italy with a 248% increase.') 
 
 st.title(' ')
 HtmlFile = open("streamlit/data/specific_day.html", 'r')
@@ -200,7 +208,7 @@ boundary_line = alt.Chart(pd.DataFrame({'x': [str(b)]})).mark_rule().encode(x=al
 
 st.title(' ')
 # https://altair-viz.github.io/user_guide/times_and_dates.html
-rides = alt.Chart(df_sing_3w_4hrs, title='B_ID: ' + str(df_single_12hrs.iloc[0]['b_id']) + " - Rides around " + str(b.strftime('%A')) + ' - ' + str(b), height=120).mark_line().encode(
+rides = alt.Chart(df_sing_3w_4hrs, title="Rides in two-hour period before and after " + str(b.strftime('%A')) + ' - ' + str(b), height=120).mark_line().encode(
     #x=alt.X('hoursminutes(pickup_datetime_1min):Q', title='Date/time', 
     #x=alt.X('utchoursminutes(pickup_datetime_1min_str):T', title='Date/time', 
     x=alt.X('pickup_datetime_same_time:T', title='Date/time', 
@@ -238,16 +246,49 @@ count_fact_line = alt.Chart(df_did[df_did['which'] == 'counter-factual']).mark_l
                     x=alt.X('timestamp:T', title=''),
                     y=alt.Y('rides_per_min:Q', title=''),
                     color=alt.Color('which:N', scale=alt.Scale(domain=['counter-factual'], range=['blue']), legend=None), 
-                    strokeDash=alt.StrokeDash('which:N', scale=alt.Scale(domain=['counter-factual'], range=[[2,2]]), legend=alt.Legend(title='' ))                              
+                    strokeDash=alt.StrokeDash('which:N', scale=alt.Scale(domain=['counter-factual'], range=[[2,2]]), legend=alt.Legend(title='Diff-in-Diff' ))                              
                     )
 diff = round(treatment_post - treat_counter_fact, 1)
-dftext = pd.DataFrame({
+
+c_pre = round(control_ow_pre, 1)
+c_post = round(control_ow_post, 1)
+t_pre = round(treatment_pre, 1)
+t_post = round(treatment_post, 1)
+t_cf = round(treat_counter_fact, 1)
+
+x_pre = str(df_did['timestamp'].min())
+x_post = str(df_did['timestamp'].max())
+
+dftext_res = pd.DataFrame({
  'text': [str(diff) + ' more mean rides per minute', 'in post-treatment period'],
- 'tx' : [str(df_did['timestamp'].max()), str(df_did['timestamp'].max())],
+ 'tx' : [x_post, x_post],
  'ty': [450, 400]})
 
+text_res = alt.Chart(dftext_res).mark_text(color='black', align='left', dx=-100, dy=-80, fontSize=15).encode(
+ x='tx:T',
+ y=alt.Y('ty:Q'
+ ),
+ text='text'
+)
 
-text = alt.Chart(dftext).mark_text(color='black', align='left', dx=-100, dy=-80, fontSize=15).encode(
+dftext_pre = pd.DataFrame({
+ 'text': [t_pre, c_pre],
+ 'tx' : [x_pre, x_pre ],
+ 'ty': [280, 315]})
+
+text_pre = alt.Chart(dftext_pre).mark_text(color='black', align='left', dx=-45, dy=0, fontSize=15, fontWeight=700).encode(
+ x='tx:T',
+ y=alt.Y('ty:Q'
+ ),
+ text='text'
+)
+
+dftext_post = pd.DataFrame({
+ 'text': [t_cf, c_post, t_post],
+ 'tx' : [x_post, x_post, x_post ],
+ 'ty': [380, 415, 470]})
+
+text_post = alt.Chart(dftext_post).mark_text(color='black', align='left', dx=10, dy=0, fontSize=15, fontWeight=700).encode(
  x='tx:T',
  y=alt.Y('ty:Q'
  ),
@@ -256,7 +297,7 @@ text = alt.Chart(dftext).mark_text(color='black', align='left', dx=-100, dy=-80,
 
 
 # https://github.com/altair-viz/altair/issues/1694
-alt_did_chart = (rides + boundary_line + did_points + did_lines + count_fact_line + text).resolve_scale(color='independent')
+alt_did_chart = (rides + boundary_line + did_points + did_lines + count_fact_line + text_res + text_pre + text_post).resolve_scale(color='independent')
 
 st.altair_chart(alt_did_chart)
 st.info('Here we applied the Differences in Differences casual inference technique to the rain event on January 17th. The fitted lines are for illustrative puprposes only, and all computations were performed seperately.')
@@ -334,6 +375,10 @@ st.altair_chart((error_bars + points + rule).interactive())
 st.markdown('\n\n')
 st.info(
     "Visual results of the regression with 95% confidence bars.")
+st.markdown('''The results of our regression were not statistically significant, as you can see the 95% confidence interval of the
+ interaction term (treatment:afternoon_dummy) crossing zero. We cannot say with confidence that the treatment(rain) had any kind of effect 
+ during the treatment timefream(afternoon). This was disappointing, though we did learn a lot. We would like to explore this in the future.
+''')
 st.title('')
 st.header(' A seperate general inquiry')
 st.markdown('\n\n')
