@@ -178,7 +178,8 @@ source_code = HtmlFile.read()
 components.html(source_code,  height = 840, width=840,)
 st.info('Here is an arc map of the same time lapse on January 17th; for each taxi ride, the pickup location is connected to its drop off location via an arc.')
 st.title(' ')
-st.title(' ')
+st.header('Applying Differences in Differences')
+st.markdown('\n\n')
 st.markdown(
     "We split January 17th into two 2-hour time segments, before and after the rain started, in order to do a simple difference in differences calculation \
         using the means of each segment. The result was an increase in ridership by 87 rides per minute for this day.")
