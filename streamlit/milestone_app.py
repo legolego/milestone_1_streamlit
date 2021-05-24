@@ -171,9 +171,17 @@ source_code = HtmlFile.read()
 components.html(source_code,  height = 840, width=840,)
 st.info('Press the play button on the bottom right to view the time lapse. This plot was generated using kepler.gl')
 st.title(' ')
+
+HtmlFile = open("streamlit/data/kepler_test7.html", 'r')
+source_code = HtmlFile.read() 
+components.html(source_code,  height = 840, width=840,)
+st.info('Here is an arc map of the same time lapse on January 17th; for each taxi ride, the pickup location is connected to its drop off location via an arc.')
+st.title(' ')
+st.title(' ')
 st.markdown(
     "We split January 17th into two 2-hour time segments, before and after the rain started, in order to do a simple difference in differences calculation \
         using the means of each segment. The result was an increase in ridership by 87 rides per minute for this day.")
+st.title(' ')
 # make two hour windows before and after boundary
 ts_before = b + timedelta(hours=-2)
 ts_after = b + timedelta(hours=2)
