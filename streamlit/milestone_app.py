@@ -152,7 +152,7 @@ st.markdown(
 12pm - 3pm, and then computed the percent difference in rides. \
 \n\n')
 
-st.title(' ')
+st.markdown('\n\n')
 st.markdown('On this particular day, you can see a large percentage increase in the number of rides \
 for various taxi zones in the afternoon. The choropleth below shows the results obtained. \
 The largest increase is in Little Italy with a 248% increase.') 
@@ -164,7 +164,8 @@ components.html(source_code,  height = 600, width=700,)
 st.info('Taxi pickups broadly increased across Manhattan after the rain event began on 01/17, especially over mid to lower Manhattan with many increasing over 50%')
 st.title(' ')
 st.markdown(
-    "Here is a time lapse of the same day ( January 17th ) from 9am to 3pm. The rides are visualized via a density heatmap that represents the taxi pickups that occurred during this time range. You can see a jump in rides around 12:30pm that is sustained in the heatmap and in the time lapse time bars.")
+    "Here are two time lapses of the same day ( January 17th ) from 9am to 3pm. In the first time lapse the taxi rides are visualized via a density heatmap that represents the taxi pickups that occurred during this time range. You can see a jump in rides around 12:30pm that is sustained in the heatmap and in the time lapse time bars.\
+    The second time lapse is an arc map where each pickup location is connected to its drop off location via an arc.")
 st.title(' ')
 HtmlFile = open("streamlit/data/kepler_test6.html", 'r')
 source_code = HtmlFile.read() 
@@ -315,7 +316,7 @@ st.title(' ')
 st.markdown(
     "We did try to set up an experiment using the hours of 9am-noon and \
         noon-3pm as a morning/afternoon boundary for a differences in differences. Our control group was days with both dry mornings \
-            and afternoons, and our treatment group was days with dry morning and wet afternoons.")
+            and dry afternoons, and our treatment group was days with a dry morning and a wet afternoon.")
 st.title(' ')
 
 df_weather = pd.read_csv('streamlit/data/cb_weather_to_join.csv')
