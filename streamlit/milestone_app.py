@@ -421,7 +421,7 @@ components.html(source_code,  height = 600, width=700,)
 st.title(" ")
 HtmlFile = open("streamlit/data/multi_pass.html", 'r')
 source_code = HtmlFile.read() 
-components.html(source_code,  height = 600, width=700,)
+components.html(source_code,  height = 680, width=700,)
 
 
 
