@@ -175,7 +175,7 @@ st.title(' ')
 HtmlFile = open("streamlit/data/kepler_test7.html", 'r')
 source_code = HtmlFile.read() 
 components.html(source_code,  height = 840, width=840,)
-st.info('Here is an arc map of the same time lapse on January 17th; for each taxi ride, the pickup location is connected to its drop off location via an arc.')
+st.info('Here is an arc map of the same time lapse on January 17th; for each taxi ride, the pickup location (in blue) is connected to its drop off location (in yellow) via an arc.')
 st.title(' ')
 st.title(' ')
 st.markdown(
