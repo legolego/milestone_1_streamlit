@@ -147,7 +147,7 @@ rides = alt.Chart(df_single_12hrs, title="Rides around " + str(b.strftime('%A'))
                                             range=['#DB9EA6 ', '#FFE303', '#adc0d8']))
 ).properties(
 width=875,
-    height=350
+    height=450
 ).interactive()
 st.altair_chart(rides+line)
 st.info('Here you can you see a spike in rides began around 12:30pm that is sustained to around 2:30pm. The previous and following week are overlayed to help illustrate inherent trends')
@@ -222,8 +222,6 @@ lstDictsBID.append({'b_id': 0, 'b':b, 'which': 'counter-factual', 'timestamp': b
 df_did = pd.DataFrame(lstDictsBID)
 df_did['timestamp_st'] = df_did['timestamp'].dt.strftime('%Y-%m-%dT%H:%M:%S')
 
-print('yo', df_did.dtypes)
-
 boundary_line = alt.Chart(pd.DataFrame({'x': [str(b)]})).mark_rule().encode(x=alt.X('x:T', title='') ) 
 
 st.title(' ')
@@ -242,7 +240,7 @@ rides = alt.Chart(df_sing_3w_4hrs, title="Rides in two-hour period before and af
                                             range=['#DB9EA6 ', '#FFE303', '#adc0d8']))
 ).properties(
 width=875,
-    height=350
+    height=450
 )
 
 did_points = alt.Chart(df_did).mark_circle(size=100).encode(
@@ -360,7 +358,7 @@ df_err_bars.columns = ['Covariate', 'Coeff', 'conf_int0', 'conf_int1']
 
 st.markdown('\n\n')
 # https://github.com/altair-viz/altair/issues/1331
-base = alt.Chart(df_err_bars, width=750, height=250)
+base = alt.Chart(df_err_bars, width=750, height=350)
 sortCol = 'Coeff'
 
 points = base.mark_point(filled=True).encode(
