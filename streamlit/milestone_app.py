@@ -394,7 +394,7 @@ st.markdown('\n\n')
 st.info(
     "Visual results of the regression with 95% confidence bars.")
 st.markdown('''The results of our regression were not statistically significant, as you can see the 95% confidence interval of the
- interaction term (treatment:afternoon_dummy) crossing zero. We cannot say with confidence that the treatment(rain) had any kind of effect 
+ interaction term (treatment : afternoon_dummy) crossing zero. We cannot say with confidence that the treatment(rain) had any kind of effect 
  during the treatment timefream(afternoon). This was disappointing, though we did learn a lot. We would like to explore this in the future.
 ''')
 st.title('')
