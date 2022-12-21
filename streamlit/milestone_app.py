@@ -48,7 +48,7 @@ st.title(' ')
 st.markdown('''We wanted to get an overall sense of the taxi activity in NYC for pickups and drop-offs, 
 so we created heatmaps for each taxi zone aggregated over 2010. It was no surprise to us that Manhattan had by 
 far the most pickups and drop-offs, but it was a small surprise to see how many fewer pickups and drop-offs
- occurred in Staten Island. This lack of pickups in other bouroughs is a problem that Green taxis were created to solve
+ occurred in Staten Island. This lack of pickups in other boroughs is a problem that Green taxis were created to solve
  ([Source](https://www.forbes.com/sites/johngiuffo/2013/09/30/nycs-new-green-taxis-what-you-should-know/?sh=cc6ff1a32a28)).
   Tooltips were included to show different metrics such as money spent on 
  fares, counts, and number of passengers dropped off.''')
@@ -66,7 +66,7 @@ st.info('Manhattan still had the most activity, but you can see the dropoffs rad
 
 st.title(' ')
 st.markdown(
-    "Here rides throughtout the year are visible, binned by maximum distance and grouped by morning(9am-noon) \
+    "Here rides throughout the year are visible, binned by maximum distance and grouped by morning(9am-noon) \
     or afternoon(noon-3pm). It's interesting to see the dips around Christmas, February and March, with a \
     large spike in September.")
 st.markdown('\n\n')
@@ -115,22 +115,29 @@ st.markdown('\n\n')
 st.markdown('\n\n')
 
 df_single_12hrs = pd.read_csv('streamlit/data/single20100117.csv')
-df_single_12hrs['b_ts'] = pd.to_datetime(df_single_12hrs['b_ts'], format='%Y-%m-%d %H:%M:%S')
-df_single_12hrs['pickup_datetime_1min'] = pd.to_datetime(df_single_12hrs['pickup_datetime_1min'], format='%Y-%m-%d %H:%M:%S')
-df_single_12hrs['pickup_datetime_same_time'] = pd.to_datetime(df_single_12hrs['pickup_datetime_same_time'], format='%Y-%m-%d %H:%M:%S')
 
-b = pd.to_datetime(df_single_12hrs['b_ts'].iloc[0])
+# orig date-looking strings are better for Altair now, instead of datetime datatype in Pandas
+# so I'll leave the orig strings as they are and make new datetime cols for calculations later, "_dt"
 
+# needed to send Altair date-like strings so it would work in Streamlit, notice the '2's in col names
+# https://github.com/altair-viz/altair/issues/1027
+# https://discuss.streamlit.io/t/altair-time-transforms-are-off/19453/5
 
-line = alt.Chart(pd.DataFrame({'x': [str(b)]})).mark_rule().encode(x=alt.X('x:T', title='') )    
+df_single_12hrs['b_ts_dt'] = pd.to_datetime(df_single_12hrs['b_ts'], format='%Y-%m-%d %H:%M:%S')
+df_single_12hrs['pickup_datetime_1min_dt'] = pd.to_datetime(df_single_12hrs['pickup_datetime_1min'], format='%Y-%m-%d %H:%M:%S')
+df_single_12hrs['pickup_datetime_same_time_dt'] = pd.to_datetime(df_single_12hrs['pickup_datetime_same_time'], format='%Y-%m-%d %H:%M:%S')
+
+b = pd.to_datetime(df_single_12hrs['b_ts'].iloc[0])     # boundary
+
+# Altair should work now with string cols for dates on x-axis
+line = alt.Chart(pd.DataFrame({'x': [str(b)]})).mark_rule().encode(x=alt.X('x:T', title='', ) )
 
 # https://altair-viz.github.io/user_guide/times_and_dates.html
-rides = alt.Chart(df_single_12hrs, title="Rides around " + str(b.strftime('%A')) + ' - ' + str(b)+ '(12 hour window)').mark_line().encode(
+rides = alt.Chart(df_single_12hrs, title="Rides around " + str(b.strftime('%A')) + ' - ' + str(b)+ ' (12 hour window)').mark_line().encode(
     #x=alt.X('hoursminutes(pickup_datetime_1min):Q', title='Date/time', 
     #x=alt.X('utchoursminutes(pickup_datetime_1min_str):T', title='Date/time', 
-    x=alt.X('pickup_datetime_same_time:T', title='Date/time', 
-            axis=alt.Axis(
-                        tickCount=18,
+    x=alt.X('pickup_datetime_same_time:T', title='Date/time',
+            axis=alt.Axis( format='%H:%M'
                     )
             ), 
     #x=alt.X('sequence:Q', axis=None, title='Date/time' ),     
@@ -189,30 +196,33 @@ ts_before = b + timedelta(hours=-2)
 ts_after = b + timedelta(hours=2)
 
 # get all three weeks in plus/minus 2 hour window
-df_sing_3w_4hrs = df_single_12hrs[(df_single_12hrs['pickup_datetime_same_time']>= ts_before) & (df_single_12hrs['pickup_datetime_same_time'] <= ts_after)] 
+df_sing_3w_4hrs = df_single_12hrs[(df_single_12hrs['pickup_datetime_same_time_dt']>= ts_before) & (df_single_12hrs['pickup_datetime_same_time_dt'] <= ts_after)]
 # current week
 df_sing_3w_cw = df_sing_3w_4hrs[df_sing_3w_4hrs['which_week']=='Current week']
 # other weeks
 df_sing_3w_ow = df_sing_3w_4hrs[df_sing_3w_4hrs['which_week']!='Current week']
 
 lstDictsBID = []
-treatment_pre = df_sing_3w_cw[df_sing_3w_cw['pickup_datetime_same_time']< b]['rides_per_minute'].mean()
+treatment_pre = df_sing_3w_cw[df_sing_3w_cw['pickup_datetime_same_time_dt']< b]['rides_per_minute'].mean()
 # https://stackoverflow.com/questions/2853683/what-is-the-preferred-syntax-for-initializing-a-dict-curly-brace-literals-or
 lstDictsBID.append({'b_id': 0, 'b':b, 'which': 'treatment', 'timestamp': b + timedelta(hours=-1), 'rides_per_min': treatment_pre})
-treatment_post = df_sing_3w_cw[df_sing_3w_cw['pickup_datetime_same_time']>= b]['rides_per_minute'].mean()
+treatment_post = df_sing_3w_cw[df_sing_3w_cw['pickup_datetime_same_time_dt']>= b]['rides_per_minute'].mean()
 lstDictsBID.append({'b_id': 0, 'b':b, 'which': 'treatment', 'timestamp': b + timedelta(hours=1), 'rides_per_min': treatment_post})
 
 lstDictsBID.append({'b_id': 0, 'b':b, 'which': 'counter-factual', 'timestamp': b + timedelta(hours=-1), 'rides_per_min': treatment_pre})
 
-control_ow_pre = df_sing_3w_ow[df_sing_3w_ow['pickup_datetime_same_time']< b]['rides_per_minute'].mean()
+control_ow_pre = df_sing_3w_ow[df_sing_3w_ow['pickup_datetime_same_time_dt']< b]['rides_per_minute'].mean()
 lstDictsBID.append({'b_id': 0, 'b':b, 'which': 'control', 'timestamp': b + timedelta(hours=-1), 'rides_per_min': control_ow_pre})
-control_ow_post = df_sing_3w_ow[df_sing_3w_ow['pickup_datetime_same_time']>= b]['rides_per_minute'].mean()
+control_ow_post = df_sing_3w_ow[df_sing_3w_ow['pickup_datetime_same_time_dt']>= b]['rides_per_minute'].mean()
 lstDictsBID.append({'b_id': 0, 'b':b, 'which': 'control', 'timestamp': b + timedelta(hours=1), 'rides_per_min': control_ow_post})
 
 treat_counter_fact = control_ow_post - control_ow_pre + treatment_pre
 lstDictsBID.append({'b_id': 0, 'b':b, 'which': 'counter-factual', 'timestamp': b + timedelta(hours=1), 'rides_per_min': treat_counter_fact})
 
 df_did = pd.DataFrame(lstDictsBID)
+df_did['timestamp_st'] = df_did['timestamp'].dt.strftime('%Y-%m-%dT%H:%M:%S')
+
+print('yo', df_did.dtypes)
 
 boundary_line = alt.Chart(pd.DataFrame({'x': [str(b)]})).mark_rule().encode(x=alt.X('x:T', title='') ) 
 
@@ -221,7 +231,7 @@ st.title(' ')
 rides = alt.Chart(df_sing_3w_4hrs, title="Rides in two-hour period before and after " + str(b.strftime('%A')) + ' - ' + str(b), height=120).mark_line().encode(
     #x=alt.X('hoursminutes(pickup_datetime_1min):Q', title='Date/time', 
     #x=alt.X('utchoursminutes(pickup_datetime_1min_str):T', title='Date/time', 
-    x=alt.X('pickup_datetime_same_time:T', title='Date/time', 
+    x=alt.X('pickup_datetime_same_time:T', title='Date/time',
             axis=alt.Axis(
                         tickCount=18,
                     )
@@ -236,7 +246,7 @@ width=875,
 )
 
 did_points = alt.Chart(df_did).mark_circle(size=100).encode(
-                    x=alt.X('timestamp:T', title=''),
+                    x=alt.X('timestamp_st:T', title=''),
                     y=alt.Y('rides_per_min:Q', title=''),
                     color=alt.Color('which:N', title='Rides per minute means',
                      scale=alt.Scale(domain=['control', 'treatment', 'counter-factual'], 
@@ -247,13 +257,13 @@ did_points = alt.Chart(df_did).mark_circle(size=100).encode(
 
 
 did_lines = alt.Chart(df_did).mark_line().encode(
-                    x=alt.X('timestamp:T', title=''),
+                    x=alt.X('timestamp_st:T', title=''),
                     y=alt.Y('rides_per_min:Q', title=''),
                     color=alt.Color('which:N', title='Rides per minute means', scale=alt.Scale(domain=['control', 'treatment'], range=['red', 'blue'])),                                     
                     )
 
 count_fact_line = alt.Chart(df_did[df_did['which'] == 'counter-factual']).mark_line(strokeWidth=1).encode(
-                    x=alt.X('timestamp:T', title=''),
+                    x=alt.X('timestamp_st:T', title=''),
                     y=alt.Y('rides_per_min:Q', title=''),
                     color=alt.Color('which:N', scale=alt.Scale(domain=['counter-factual'], range=['blue']), legend=None), 
                     strokeDash=alt.StrokeDash('which:N', scale=alt.Scale(domain=['counter-factual'], range=[[2,2]]), legend=alt.Legend(title='Diff-in-Diff' ))                              
