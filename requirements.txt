@@ -1,5 +1,4 @@
 altair==5.1.2
-numpy==1.21.2
-pandas==2.1.1
-statsmodels==0.12.2
-
+numpy==1.26.1
+pandas==2.1.2
+statsmodels==0.14.0
